@@ -1,0 +1,31 @@
+<container xmlns:th="http://www.thymeleaf.org">
+    <div th:if="${hasError}">
+        <h5 class="text-center text-danger" th:text="${error}"></h5>
+    </div>
+
+    <div class="container mb-4">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-secondary">Username</th>
+                        <th scope="col" class="text-secondary">Gender</th>
+                        <th scope="col" class="text-secondary">Age</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <h2 class="text-success">
+                        <th:block th:text="${message}"></th:block>
+                    </h2>
+                    <tr class="nav-item">
+                        <td th:block th:if="${username} != null" th:text="${username}"></td>
+                        <td th:block th:if="${gender} != null" th:text="${gender}"></td>
+                        <td th:block th:if="${age} != null" th:text="${age}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</container>
