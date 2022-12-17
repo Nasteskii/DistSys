@@ -10,6 +10,8 @@
                     <thead>
                     <tr>
                         <th scope="col" class="text-secondary">Username</th>
+                        <th scope="col" class="text-secondary">Name</th>
+                        <th scope="col" class="text-secondary">Surname</th>
                         <th scope="col" class="text-secondary">Gender</th>
                         <th scope="col" class="text-secondary">Age</th>
                     </tr>
@@ -20,6 +22,8 @@
                     </h2>
                     <tr class="nav-item">
                         <td th:block th:if="${username} != null" th:text="${username}"></td>
+                        <td th:block th:if="${name} != null" th:text="${name}"></td>
+                        <td th:block th:if="${surname} != null" th:text="${surname}"></td>
                         <td th:block th:if="${gender} != null" th:text="${gender}"></td>
                         <td th:block th:if="${age} != null" th:text="${age}"></td>
                     </tr>

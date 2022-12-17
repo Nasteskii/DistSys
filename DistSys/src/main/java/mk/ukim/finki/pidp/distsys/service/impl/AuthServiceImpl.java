@@ -1,10 +1,9 @@
 package mk.ukim.finki.pidp.distsys.service.impl;
 
 import mk.ukim.finki.pidp.distsys.model.User;
-import mk.ukim.finki.pidp.distsys.model.exceptions.InvalidArgumentsException;
+import mk.ukim.finki.pidp.distsys.model.exceptions.*;
 import mk.ukim.finki.pidp.distsys.repository.UserRepository;
 import mk.ukim.finki.pidp.distsys.service.AuthService;
-import mk.ukim.finki.pidp.distsys.model.exceptions.InvalidUserCredentialsException;
 import org.springframework.stereotype.Service;
 
 @Service

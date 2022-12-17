@@ -2,7 +2,7 @@
     <h1 th:if="${hasError}" th:text="${error}"></h1>
 </div>
 <div class="container">
-    <form class="form-signin mt-xl-5" method="post" action="/register">
+    <form class="form-signin mt-xl-5" method="post" th:action="@{'/register'}">
         <h2 class="form-signin-heading">Register</h2>
         <p>
             <label for="username" class="sr-only">Username</label>
@@ -11,8 +11,7 @@
         </p>
         <p>
             <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
-                   required="">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         </p>
         <p>
             <label for="repeatedPassword" class="sr-only">Repeat Password</label>
@@ -28,17 +27,30 @@
             <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" required=""
                    autofocus="">
         </p>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="gender" type="radio" id="Male" value="Male" required="">
+            <label class="form-check-label" for="Male">Male</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" name="gender" type="radio" id="Female" value="Female" required="">
+            <label class="form-check-label" for="Female">Female</label>
+        </div>
+        <p>
+            <label for="age" class="sr-only">Age</label>
+            <input type="number" id="age" name="age" class="form-control" placeholder="Age" required=""
+                   autofocus="">
+        </p>
         <p>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
+            <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN" required="">
             <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" name="role" type="radio" id="ROLE_USER" value="ROLE_USER">
+            <input class="form-check-input" name="role" type="radio" id="ROLE_USER" value="ROLE_USER" required="">
             <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
         </div>
         </p>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        <input class="btn btn-lg btn-primary btn-block" type="submit"/>
     </form>
-    <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
+    <a href="/login">Already have an account? Login here!</a>
 </div>

@@ -5,25 +5,29 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import javax.management.relation.Role;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 
 @Data
 @Entity
+@Table(name = "shop_users")
 public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    private String firstName;
+    private String lastName;
     private String password;
     private String gender;
     private Integer age;
-    private boolean isAccountNonExpired;
-    private boolean isAccountNonLocked;
-    private boolean isCredentialsNonExpired;
-    private boolean isEnabled;
+    private boolean isAccountNonExpired = true;
+    private boolean isAccountNonLocked = true;
+    private boolean isCredentialsNonExpired = true;
+    private boolean isEnabled = true;
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
 
@@ -31,7 +35,7 @@ public class User implements UserDetails{
 
     }
 
-    public User(String username, String encode, String gender, int age, Role role) {
+    public User(String username, String encode, String gender, Integer age, Role role) {
         this.username = username;
         this.password = encode;
         this.gender = gender;
@@ -41,10 +45,7 @@ public class User implements UserDetails{
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role);
-        Collection<GrantedAuthority> collection = new HashSet<>(1);
-        collection.add(authority);
-        return collection;
+        return Collections.singletonList(role);
     }
 
     @Override

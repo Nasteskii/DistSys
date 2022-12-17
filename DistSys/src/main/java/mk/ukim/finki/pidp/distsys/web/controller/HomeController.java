@@ -2,6 +2,7 @@ package mk.ukim.finki.pidp.distsys.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import mk.ukim.finki.pidp.distsys.model.User;
 import mk.ukim.finki.pidp.distsys.service.ProductService;
 import mk.ukim.finki.pidp.distsys.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ public class HomeController {
 
     @GetMapping
     public String homePage(Model model, HttpServletRequest request) {
-        model.addAttribute("user", request.getRemoteUser());
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
         model.addAttribute("bodyContent", "home");
         return "master-page";
     }
@@ -34,27 +36,33 @@ public class HomeController {
         return "master-page";
     }
 
-
     @GetMapping(value = "/employees")
     public String getEmployees(Model model, HttpServletRequest request) {
-        model.addAttribute("user", request.getRemoteUser());
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
         model.addAttribute("employees", productService.findAll());
-        return "products";
+        model.addAttribute("bodyContent", "employees");
+        return "master-page";
     }
 
-    @GetMapping(value = "/clients")
-    public String getClients(Model model, HttpServletRequest request) {
-        model.addAttribute("user", request.getRemoteUser());
-        model.addAttribute("clients", productService.findAll());
-        return "products";
+    @GetMapping(value = "/users")
+    public String getUsers(Model model, HttpServletRequest request) {
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
+        model.addAttribute("users", productService.findAll());
+        model.addAttribute("bodyContent", "users");
+        return "master-page";
     }
 
     @GetMapping(value = "/info")
     public String getInfo(Model model, HttpServletRequest request) {
-        model.addAttribute("user", request.getRemoteUser());
-        model.addAttribute("username", userService.username(request.getRemoteUser()));
-        model.addAttribute("gender", userService.userGender(request.getRemoteUser()));
-        model.addAttribute("age", userService.userAge(request.getRemoteUser()));
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("name", user.getFirstName());
+        model.addAttribute("surname", user.getLastName());
+        model.addAttribute("gender", user.getGender());
+        model.addAttribute("age", user.getAge());
         model.addAttribute("bodyContent", "info");
         return "master-page";
     }

@@ -2,7 +2,9 @@ package mk.ukim.finki.pidp.distsys.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import mk.ukim.finki.pidp.distsys.model.Product;
+import mk.ukim.finki.pidp.distsys.model.User;
 import mk.ukim.finki.pidp.distsys.service.ProductService;
+import mk.ukim.finki.pidp.distsys.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +17,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final UserService userService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, UserService userService) {
         this.productService = productService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -27,7 +31,8 @@ public class ProductController {
             model.addAttribute("error", error);
         }
         List<Product> products = this.productService.findAll();
-        model.addAttribute("user", request.getRemoteUser());
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
         model.addAttribute("products", products);
         model.addAttribute("bodyContent", "products");
         return "master-page";
@@ -50,11 +55,11 @@ public class ProductController {
         return "redirect:/products?error=ProductNotFound";
     }
 
-//    @GetMapping("/add-to-cart")
-//    public String addProductPage(Model model) {
-//        model.addAttribute("bodyContent", "add-product");
-//        return "master-page";
-//    }
+    @GetMapping("/add-to-cart")
+    public String addProductPage(Model model) {
+        model.addAttribute("bodyContent", "add-product");
+        return "master-page";
+    }
 
     @PostMapping("/add-form")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

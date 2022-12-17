@@ -2,8 +2,10 @@ package mk.ukim.finki.pidp.distsys.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import mk.ukim.finki.pidp.distsys.model.Product;
+import mk.ukim.finki.pidp.distsys.model.User;
 import mk.ukim.finki.pidp.distsys.service.ProductService;
 import mk.ukim.finki.pidp.distsys.service.ShoppingCartService;
+import mk.ukim.finki.pidp.distsys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +15,19 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     private final ShoppingCartService shoppingCartService;
+    private final UserService userService;
     private final ProductService productService;
 
-    public CartController(ShoppingCartService shoppingCartService, ProductService productService) {
+    public CartController(ShoppingCartService shoppingCartService, UserService userService, ProductService productService) {
         this.shoppingCartService = shoppingCartService;
+        this.userService = userService;
         this.productService = productService;
     }
 
     @GetMapping
     public String cart(Model model, HttpServletRequest request){
-        model.addAttribute("user", request.getRemoteUser());
+        User user = userService.loadUserByUsername(request.getRemoteUser());
+        model.addAttribute("user", user);
         model.addAttribute("products", shoppingCartService.productsInCart());
         model.addAttribute("totalPrice", shoppingCartService.totalPrice());
         model.addAttribute("bodyContent", "cart");
