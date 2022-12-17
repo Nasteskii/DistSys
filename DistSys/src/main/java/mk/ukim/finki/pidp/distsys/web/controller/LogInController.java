@@ -1,10 +1,10 @@
 package mk.ukim.finki.pidp.distsys.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import mk.ukim.finki.pidp.distsys.model.Client;
+
+import mk.ukim.finki.pidp.distsys.model.User;
 import mk.ukim.finki.pidp.distsys.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.pidp.distsys.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +29,13 @@ public class LogInController {
 
     @PostMapping
     public String login(HttpServletRequest request, Model model) {
-        Client client = null;
-        try{
-            client = this.authService.login(request.getParameter("username"),
+        User user = null;
+        try {
+            user = this.authService.login(request.getParameter("username"),
                     request.getParameter("password"));
-            request.getSession().setAttribute("user", client);
+            request.getSession().setAttribute("user", user);
             return "redirect:/home";
-        }
-        catch (InvalidUserCredentialsException exception) {
+        } catch (InvalidUserCredentialsException exception) {
             model.addAttribute("hasError", true);
             model.addAttribute("error", exception.getMessage());
             return "login";

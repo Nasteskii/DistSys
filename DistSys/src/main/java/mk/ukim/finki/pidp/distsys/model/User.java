@@ -12,7 +12,7 @@ import java.util.HashSet;
 
 @Data
 @Entity
-public class Client implements UserDetails{
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,11 +27,11 @@ public class Client implements UserDetails{
     private Role role;
 
 
-    public Client() {
+    public User() {
 
     }
 
-    public Client(String username, String encode, String gender, int age, Role role) {
+    public User(String username, String encode, String gender, int age, Role role) {
         this.username = username;
         this.password = encode;
         this.gender = gender;

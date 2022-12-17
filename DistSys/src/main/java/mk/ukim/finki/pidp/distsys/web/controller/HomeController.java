@@ -1,8 +1,9 @@
 package mk.ukim.finki.pidp.distsys.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import mk.ukim.finki.pidp.distsys.service.ClientService;
+
 import mk.ukim.finki.pidp.distsys.service.ProductService;
+import mk.ukim.finki.pidp.distsys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = {"/", "/home"})
 public class HomeController {
     private final ProductService productService;
-    private final ClientService clientService;
+    private final UserService userService;
 
 
-    public HomeController(ProductService productService, ClientService clientService) {
+    public HomeController(ProductService productService, UserService userService) {
         this.productService = productService;
-        this.clientService = clientService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -51,9 +52,9 @@ public class HomeController {
     @GetMapping(value = "/info")
     public String getInfo(Model model, HttpServletRequest request) {
         model.addAttribute("user", request.getRemoteUser());
-        model.addAttribute("username", clientService.clientUsername(request.getRemoteUser()));
-        model.addAttribute("gender", clientService.clientGender(request.getRemoteUser()));
-        model.addAttribute("age", clientService.clientAge(request.getRemoteUser()));
+        model.addAttribute("username", userService.username(request.getRemoteUser()));
+        model.addAttribute("gender", userService.userGender(request.getRemoteUser()));
+        model.addAttribute("age", userService.userAge(request.getRemoteUser()));
         model.addAttribute("bodyContent", "info");
         return "master-page";
     }

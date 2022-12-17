@@ -1,7 +1,7 @@
 package mk.ukim.finki.pidp.distsys.service;
 
-import mk.ukim.finki.pidp.distsys.model.Client;
+import mk.ukim.finki.pidp.distsys.model.User;
 
 public interface AuthService {
-    Client login(String username, String password);
+    User login(String username, String password);
 }
