@@ -6,18 +6,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final PasswordEncoder passwordEncoder;
     private final CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider) {
-        this.passwordEncoder = passwordEncoder;
+    public WebSecurityConfig(CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider) {
         this.customUsernamePasswordAuthenticationProvider = customUsernamePasswordAuthenticationProvider;
     }
 
@@ -43,15 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("user")
-//                .password(passwordEncoder.encode("user"))
-//                .authorities("ROLE_USER")
-//                .and()
-//                .withUser("admin")
-//                .password(passwordEncoder.encode("admin"))
-//                .authorities("ROLE_ADMIN");
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customUsernamePasswordAuthenticationProvider);
     }
 }
