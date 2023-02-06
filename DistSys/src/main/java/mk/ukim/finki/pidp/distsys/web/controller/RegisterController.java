@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import mk.ukim.finki.pidp.distsys.model.Role;
 import mk.ukim.finki.pidp.distsys.model.exceptions.InvalidUserCredentialsException;
+import mk.ukim.finki.pidp.distsys.model.exceptions.PasswordsDoNotMatchException;
+import mk.ukim.finki.pidp.distsys.model.exceptions.UsernameAlreadyExistsException;
 import mk.ukim.finki.pidp.distsys.service.AuthService;
 import mk.ukim.finki.pidp.distsys.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +26,11 @@ public class RegisterController {
     }
 
     @GetMapping
-    public String getRegisterPage(Model model) {
+    public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
+        if (error != null && !error.isEmpty()) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         model.addAttribute("bodyContent", "register");
         return "master-page";
     }
@@ -42,10 +48,9 @@ public class RegisterController {
             this.userService.register(username, password, repeatedPassword,
                     name, surname, gender, age, role);
             return "redirect:/login";
-        } catch (InvalidUserCredentialsException exception) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", exception.getMessage());
-            return "redirect:/register";
+        } catch (InvalidUserCredentialsException | PasswordsDoNotMatchException |
+                 UsernameAlreadyExistsException exception) {
+            return "redirect:/register?error=" + exception.getMessage();
         }
     }
 

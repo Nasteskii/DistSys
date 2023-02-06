@@ -1,5 +1,5 @@
-<div class="container">
-    <h1 th:if="${hasError}" th:text="${error}"></h1>
+<div th:if="${hasError}">
+    <p class="text-center text-danger" th:text="${error}"></p>
 </div>
 <div class="container">
     <form class="form-signin mt-xl-5" method="post" th:action="@{'/register'}">

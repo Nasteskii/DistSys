@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -18,39 +19,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(Product product) {
+    public String save(Product product) {
         productRepository.save(product);
+        return "Product "+ product.getName() + " was saved!";
     }
 
     @Override
-    public void edit(long id, Product newProduct) {
+    public String edit(long id, Product newProduct) {
         Product found = productRepository.findById(id).get();
         found.setName(newProduct.getName());
         found.setDescription(newProduct.getDescription());
         found.setPrice(newProduct.getPrice());
-        save(newProduct);
+        return save(found);
     }
 
     @Override
     public void delete(long id) {
-        productRepository.delete(findById(id));
+        productRepository.delete(findById(id).get());
     }
 
     @Override
-    public Product findById(long id) {
-        return productRepository.findById(id).get();
+    public Optional<Product> findById(long id) {
+        return productRepository.findById(id);
     }
-
-    @Override
-    public List<Product> findAllByOrderByIdAsc() {
-//        return productRepository.findAllByOrderByIdAsc();
-        return null;
-    }
-
-    @Override
-    public List<Product> findAllByCategoryId(long categoryId) {
-//        return productRepository.findAllByCategoryId(categoryId);
-        return null;
+    public Optional<Product> findByName(String name) {
+        return productRepository.findByName(name);
     }
 
     @Override
@@ -64,7 +57,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public String deleteById(Long id) {
+        String name = productRepository.findById(id).get().getName();
         productRepository.deleteById(id);
+        return "Product " + name + " was deleted!";
+    }
+
+    public void deleteAll() {
+        productRepository.deleteAll();
     }
 }

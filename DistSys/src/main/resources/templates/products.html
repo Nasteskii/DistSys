@@ -4,10 +4,14 @@
             <h3 class="jumbotron-heading">All products</h3>
         </div>
     </section>
+    <div th:if="${hasError}">
+        <p class="text-center text-danger" th:text="${error}"></p>
+    </div>
+    <p class="text-center text-success" th:text="${message}"></p>
 
     <div class="container mb-4">
         <div class="row">
-            <div class="col-12" th:if="${products.size() > 0}">
+            <div class="col-12" th:if="${allProducts.size() > 0}">
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -17,7 +21,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="product : ${products}" class="product">
+                        <tr th:each="product : ${allProducts}" class="product">
                             <td th:text="${product.getName()}"></td>
                             <td th:text="${product.getPrice()}"></td>
                             <td class="text-right">
@@ -36,7 +40,7 @@
                                         <i class="fa fa-trash">Edit</i>
                                     </a>
                                 </th:block>
-                                <form th:action="@{'/shopping-cart/add-product/{id}' (id=${product.getId()})}"
+                                <form th:action="@{'/products/add-to-cart/{id}' (id=${product.getId()})}"
                                       th:method="POST"
                                       sec:authorize="isAuthenticated()">
                                     <button type="submit"

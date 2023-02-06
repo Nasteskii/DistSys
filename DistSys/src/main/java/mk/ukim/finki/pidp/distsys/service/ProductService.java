@@ -4,18 +4,20 @@ import mk.ukim.finki.pidp.distsys.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface ProductService {
-    void save(Product product);
-    void edit(long id, Product newProduct);
+    String save(Product product);
+    String edit(long id, Product newProduct);
     void delete(long id);
-    Product findById(long id);
-    List<Product> findAllByOrderByIdAsc();
-    List<Product> findAllByCategoryId(long categoryId);
+    Optional<Product> findById(long id);
+    Optional<Product> findByName(String name);
     long count();
 
     List<Product> findAll();
 
-    void deleteById(Long id);
+    String deleteById(Long id);
+
+    void deleteAll();
 }

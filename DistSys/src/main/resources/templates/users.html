@@ -1,46 +1,44 @@
 <div xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <section class="jumbotron text-center">
         <div class="container">
-            <h3 class="jumbotron-heading">All products</h3>
+            <h3 class="jumbotron-heading">All users</h3>
         </div>
     </section>
 
     <div class="container mb-4">
         <div class="row">
-            <div class="col-12" th:if="${users != null}">
+            <div class="col-12" th:if="${allUsers.size() > 0}">
                 <div class="table-responsive">
-                    <container xmlns:th="http://www.thymeleaf.org">
-                        <div th:if="${hasError}">
-                            <h5 class="text-center text-danger" th:text="${error}"></h5>
-                        </div>
+                    <div th:if="${hasError}">
+                        <h5 class="text-center text-danger" th:text="${error}"></h5>
+                    </div>
 
-                        <div class="container mb-4">
-                            <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col" class="text-secondary">Username</th>
-                                            <th scope="col" class="text-secondary">Name</th>
-                                            <th scope="col" class="text-secondary">Surname</th>
-                                            <th scope="col" class="text-secondary">Gender</th>
-                                            <th scope="col" class="text-secondary">Age</th>
+                    <div class="container mb-4">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col" class="text-secondary">Username</th>
+                                        <th scope="col" class="text-secondary">Name</th>
+                                        <th scope="col" class="text-secondary">Surname</th>
+                                        <th scope="col" class="text-secondary">Gender</th>
+                                        <th scope="col" class="text-secondary">Age</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="nav-item" th:each="user : ${allUsers}">
+                                            <td th:text="${user.getUsername()}"></td>
+                                            <td th:text="${user.getFirstName()}"></td>
+                                            <td th:text="${user.getLastName()}"></td>
+                                            <td th:text="${user.getGender()}"></td>
+                                            <td th:text="${user.getAge()}"></td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr class="nav-item">
-                                            <td th:block th:if="${username} != null" th:text="${username}"></td>
-                                            <td th:block th:if="${name} != null" th:text="${name}"></td>
-                                            <td th:block th:if="${surname} != null" th:text="${surname}"></td>
-                                            <td th:block th:if="${gender} != null" th:text="${gender}"></td>
-                                            <td th:block th:if="${age} != null" th:text="${age}"></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </container>
+                    </div>
                 </div>
             </div>
         </div>

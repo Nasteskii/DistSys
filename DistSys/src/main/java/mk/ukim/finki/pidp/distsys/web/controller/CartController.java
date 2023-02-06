@@ -18,6 +18,8 @@ public class CartController {
     private final UserService userService;
     private final ProductService productService;
 
+    private String message;
+
     public CartController(ShoppingCartService shoppingCartService, UserService userService, ProductService productService) {
         this.shoppingCartService = shoppingCartService;
         this.userService = userService;
@@ -30,41 +32,31 @@ public class CartController {
         model.addAttribute("user", user);
         model.addAttribute("products", shoppingCartService.productsInCart());
         model.addAttribute("totalPrice", shoppingCartService.totalPrice());
+        model.addAttribute("message", message);
         model.addAttribute("bodyContent", "cart");
+        message = null;
         return "master-page";
-    }
-
-    @PostMapping("/add-product/{id}")
-    public String addProductToCart(@PathVariable("id") long id, Model model){
-        Product product = productService.findById(id);
-        if (product != null){
-            shoppingCartService.addProduct(product);
-            model.addAttribute("message", String.format("Product with id: %s added to shopping cart.", id));
-        }
-        return "redirect:/products";
     }
 
     @PostMapping("/remove-product/{id}")
     public String removeProductFromCart(@PathVariable("id") long id, Model model){
-        Product product = productService.findById(id);
-        if (product != null){
-            shoppingCartService.removeProduct(product);
-            model.addAttribute("message", String.format("Product with id: %s removed from shopping cart.", id));
-        }
-        return "redirect:/cart";
+        Product product = productService.findById(id).get();
+        shoppingCartService.removeProduct(product);
+        message = "Product " + product.getName() + " was removed from shopping cart!";
+        model.addAttribute("message", String.format("Product with id: %s removed from shopping cart.", id));
+        return "redirect:/shopping-cart";
     }
 
     @GetMapping("/clear")
     public String clearProductsInCart(){
         shoppingCartService.clearProducts();
-
+        message = "Shopping cart was cleared!";
         return "redirect:/shopping-cart";
     }
 
     @GetMapping("/checkout")
     public String cartCheckout(){
         shoppingCartService.cartCheckout();
-
         return "redirect:/shopping-cart";
     }
 }

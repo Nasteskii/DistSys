@@ -1,14 +1,14 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">e-shop DistSys</h1>
+            <h2 class="jumbotron-heading">Add new product</h2>
         </div>
     </section>
 
     <div class="container">
         <div class="row">
             <div class="col-md-5">
-                <form action="/products/add" method="POST">
+                <form action="/products/add-product" method="POST">
                     <input id="id" type="hidden" name="id" th:value="(${product} != null ? ${product.getId()} : '')">
                     <div class="form-group">
                         <label for="name">Product name</label>
@@ -21,22 +21,25 @@
                                placeholder="Enter product name">
                     </div>
                     <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea
+                               class="form-control"
+                               id="description"
+                               name="description"
+                               required
+                               placeholder="Enter product description">
+                        </textarea>
+                    </div>
+                    <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text"
+                        <input type="number"
+                               step="0.01"
                                class="form-control"
                                id="price"
                                name="price"
                                th:value="(${product} != null ? ${product.getPrice()} : '')"
+                               required=""
                                placeholder="Price">
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="text"
-                               class="form-control"
-                               id="quantity"
-                               name="quantity"
-                               th:value="(${product} != null ? ${product.getQuantity()} : '')"
-                               placeholder="Quantity">
                     </div>
                     <button id="submit" type="submit" class="btn btn-primary">Submit</button>
                     <a type="button" class="btn btn-primary" href="/products">Back</a>
